@@ -1,0 +1,69 @@
+{
+  "name": "@solutioniser/create-next-starter",
+  "version": "0.1.0",
+  "description": "CLI tool to create Next.js starter applications with optional authentication providers",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "create-next-starter": "./dist/index.js"
+  },
+  "keywords": [
+    "nextjs",
+    "starter",
+    "template",
+    "cli",
+    "authentication",
+    "authjs",
+    "clerk",
+    "auth0",
+    "supabase",
+    "storybook",
+    "typescript",
+    "tailwind"
+  ],
+  "author": "Solutioniser Ltd <vilmos@solutioniser.ltd>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/next-starter-templates.git",
+    "directory": "packages/create-next-starter"
+  },
+  "homepage": "https://github.com/yourusername/next-starter-templates#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/next-starter-templates/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "pnpm build",
+    "version:patch": "npm version patch && git push origin main --tags",
+    "version:minor": "npm version minor && git push origin main --tags",
+    "version:major": "npm version major && git push origin main --tags",
+    "version:alpha": "npm version prerelease --preid=alpha && git push origin main --tags",
+    "version:beta": "npm version prerelease --preid=beta && git push origin main --tags",
+    "version:rc": "npm version prerelease --preid=rc && git push origin main --tags"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "execa": "^8.0.1",
+    "fs-extra": "^11.2.0",
+    "ora": "^8.0.1",
+    "prompts": "^2.4.2",
+    "tar": "^7.0.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.0.0",
+    "@types/prompts": "^2.4.9",
+    "@types/tar": "^6.1.12",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist"
+  ]
+}
