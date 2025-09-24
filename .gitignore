@@ -35,3 +35,5 @@ Thumbs.db
 # Test projects
 my-app*/
 test-*/
+
+.create-next-starter-cache

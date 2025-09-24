@@ -112,17 +112,23 @@ async function mergePackageJson(projectPath: string) {
     throw new Error('No package.json.partial files found in template')
   }
   
-  // Start with the first partial file as the base
-  const basePartialContent = await fs.readFile(partialFiles[0], 'utf-8')
+  // Process all partial files and replace PROJECT_NAME placeholder
   const projectName = path.basename(projectPath)
-  const processedContent = basePartialContent.replace(/\{\{PROJECT_NAME\}\}/g, projectName)
-  let mergedPackageJson = JSON.parse(processedContent)
+  const processedPartials: any[] = []
   
-  // Merge remaining partial files
-  for (let i = 1; i < partialFiles.length; i++) {
-    const partialContent = await fs.readFile(partialFiles[i], 'utf-8')
-    const partialPackageJson = JSON.parse(partialContent)
-    mergedPackageJson = deepMerge(mergedPackageJson, partialPackageJson)
+  for (const partialFile of partialFiles) {
+    const partialContent = await fs.readFile(partialFile, 'utf-8')
+    const processedContent = partialContent.replace(/\{\{PROJECT_NAME\}\}/g, projectName)
+    const partialPackageJson = JSON.parse(processedContent)
+    processedPartials.push(partialPackageJson)
+  }
+  
+  // Start with the first processed partial as the base
+  let mergedPackageJson = processedPartials[0]
+  
+  // Merge remaining processed partials
+  for (let i = 1; i < processedPartials.length; i++) {
+    mergedPackageJson = deepMerge(mergedPackageJson, processedPartials[i])
   }
   
   // Remove all partial files
@@ -132,8 +138,63 @@ async function mergePackageJson(projectPath: string) {
 
   // Project name is already set from placeholder replacement
 
+  // Reorder package.json properties to follow standard convention
+  const orderedPackageJson = reorderPackageJson(mergedPackageJson)
+
   // Write merged package.json
-  await fs.writeFile(packageJsonPath, JSON.stringify(mergedPackageJson, null, 2))
+  await fs.writeFile(packageJsonPath, JSON.stringify(orderedPackageJson, null, 2))
+}
+
+function reorderPackageJson(packageJson: any): any {
+  // Define the standard order for package.json properties
+  const standardOrder = [
+    'name',
+    'version', 
+    'description',
+    'private',
+    'type',
+    'main',
+    'module',
+    'exports',
+    'bin',
+    'engines',
+    'scripts',
+    'dependencies',
+    'devDependencies',
+    'peerDependencies',
+    'optionalDependencies',
+    'bundledDependencies',
+    'os',
+    'cpu',
+    'preferGlobal',
+    'publishConfig',
+    'repository',
+    'bugs',
+    'homepage',
+    'keywords',
+    'author',
+    'contributors',
+    'license',
+    'files'
+  ]
+
+  const ordered: any = {}
+  
+  // Add properties in standard order if they exist
+  for (const key of standardOrder) {
+    if (packageJson.hasOwnProperty(key)) {
+      ordered[key] = packageJson[key]
+    }
+  }
+  
+  // Add any remaining properties that weren't in the standard order
+  for (const key in packageJson) {
+    if (!ordered.hasOwnProperty(key)) {
+      ordered[key] = packageJson[key]
+    }
+  }
+  
+  return ordered
 }
 
 async function findAllPartialFiles(dir: string): Promise<string[]> {

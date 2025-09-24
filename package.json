@@ -3,16 +3,13 @@
   "version": "1.0.0",
   "description": "Monorepo for create-next-starter CLI tool",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "build": "pnpm --filter @solutioniser/create-next-starter build",
     "dev": "pnpm --filter @solutioniser/create-next-starter dev",
     "test": "pnpm --filter @solutioniser/create-next-starter test"
   },
   "devDependencies": {
-    "typescript": "^5.6.0"
+    "typescript": "^5.9.2"
   },
   "engines": {
     "node": ">=20",
