@@ -117,7 +117,7 @@ jobs:
           cd packages/create-next-starter
           CURRENT_VERSION=$(node -p "require('./package.json').version")
           echo "Current version: $CURRENT_VERSION"
-          
+
           # Check if this version already exists on npm
           if npm view @solutioniser/create-next-starter@$CURRENT_VERSION version > /dev/null 2>&1; then
             echo "Version $CURRENT_VERSION already exists on npm, skipping publish"

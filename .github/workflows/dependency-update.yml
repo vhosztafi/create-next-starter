@@ -65,16 +65,16 @@ jobs:
           title: 'chore: update dependencies'
           body: |
             ## Dependency Updates
-            
+
             This PR contains automated dependency updates.
-            
+
             ### Changes
             - Updated package dependencies to latest compatible versions
             - Fixed security vulnerabilities (if any)
-            
+
             ### Review
             Please review the changes and test thoroughly before merging.
-            
+
             ### Testing
             - [ ] All tests pass
             - [ ] Build succeeds

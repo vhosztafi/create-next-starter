@@ -6,14 +6,25 @@
   "scripts": {
     "build": "pnpm --filter @solutioniser/create-next-starter build",
     "dev": "pnpm --filter @solutioniser/create-next-starter dev",
-    "test": "pnpm --filter @solutioniser/create-next-starter test"
+    "test": "pnpm --filter @solutioniser/create-next-starter test",
+    "format:fix": "prettier --write .",
+    "format:validate": "prettier --check .",
+    "prepare": "husky install"
   },
   "devDependencies": {
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
     "typescript": "^5.9.2"
   },
   "engines": {
     "node": ">=20",
     "pnpm": ">=8"
   },
-  "packageManager": "pnpm@8.15.0"
+  "packageManager": "pnpm@8.15.0",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
 }

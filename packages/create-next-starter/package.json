@@ -43,6 +43,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "clean": "rm -rf dist",
+    "format:fix": "prettier --write .",
+    "format:validate": "prettier --check .",
     "version:patch": "npm version patch && git push origin main --tags",
     "version:minor": "npm version minor && git push origin main --tags",
     "version:major": "npm version major && git push origin main --tags",
@@ -69,6 +71,7 @@
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
+    "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
     "typescript": "^5.6.0"
   },

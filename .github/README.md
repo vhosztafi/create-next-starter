@@ -7,11 +7,13 @@ This directory contains GitHub Actions workflows for the create-next-starter CLI
 ### 1. CI/CD Pipeline (`ci-cd.yml`)
 
 **Triggers:**
+
 - Push to `main` or `develop` branches
 - Pull requests to `main` or `develop` branches
 - GitHub releases
 
 **Jobs:**
+
 - **Validate**: Runs linting, type checking, tests, and builds the package
 - **Publish**: Publishes to npm when a release is created or version is bumped
 - **Security Audit**: Runs security audit on dependencies
@@ -20,9 +22,11 @@ This directory contains GitHub Actions workflows for the create-next-starter CLI
 ### 2. Release Workflow (`release.yml`)
 
 **Triggers:**
+
 - Manual workflow dispatch
 
 **Features:**
+
 - Interactive version bumping (patch, minor, major, alpha, beta, rc)
 - Automatic git tagging
 - GitHub release creation
@@ -46,6 +50,7 @@ The `GITHUB_TOKEN` is automatically provided by GitHub Actions and doesn't need 
 ### 3. Repository Settings
 
 Make sure your repository has the following settings:
+
 - Branch protection rules on `main` branch
 - Require status checks to pass before merging
 - Require branches to be up to date before merging
@@ -55,6 +60,7 @@ Make sure your repository has the following settings:
 ### Automatic Publishing
 
 The package will be automatically published to npm when:
+
 1. A GitHub release is created
 2. A commit message contains `chore(release)` (for automated version bumps)
 
@@ -89,6 +95,7 @@ pnpm version:rc     # 0.1.0 → 0.1.1-rc.0
 ## Workflow Features
 
 ### Validation
+
 - **Linting**: Code style and quality checks
 - **Type Checking**: TypeScript compilation without emitting files
 - **Testing**: Unit and integration tests
@@ -96,12 +103,14 @@ pnpm version:rc     # 0.1.0 → 0.1.1-rc.0
 - **Build Verification**: Ensures build output is correct
 
 ### Publishing
+
 - **Version Check**: Prevents publishing duplicate versions
 - **Build**: Ensures latest code is built before publishing
 - **NPM Publish**: Publishes to npm registry with public access
 - **Release Notes**: Automatic GitHub release creation
 
 ### Security
+
 - **Dependency Audit**: Checks for known vulnerabilities
 - **Automated Updates**: Weekly dependency updates with PR creation
 
@@ -148,5 +157,5 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 0 * * 1'  # Weekly on Monday
+    - cron: '0 0 * * 1' # Weekly on Monday
 ```

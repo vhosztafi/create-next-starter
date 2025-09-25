@@ -17,6 +17,7 @@ create-next-starter
 ```
 
 This will prompt you for:
+
 - Project name
 - Package manager (pnpm, npm, yarn, bun)
 - Authentication provider (none, authjs, clerk, auth0, supabase, msal)
