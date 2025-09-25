@@ -64,7 +64,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add packages/create-next-starter/package.json packages/create-next-starter/dist
+          git add packages/create-next-starter/package.json
+          git add -f packages/create-next-starter/dist
           git commit -m "chore(release): bump version to ${{ env.NEW_VERSION }}"
           git tag "v${{ env.NEW_VERSION }}"
           git push origin main
