@@ -54,6 +54,13 @@ jobs:
       - name: Build package
         run: pnpm --filter @solutioniser/create-next-starter run build
 
+      - name: Publish to npm
+        run: |
+          cd packages/create-next-starter
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Commit changes
         run: |
           git add packages/create-next-starter/package.json packages/create-next-starter/dist
