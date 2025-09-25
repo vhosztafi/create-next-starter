@@ -12,6 +12,7 @@ async function main() {
         .argument('[project-name]', 'Name of the project')
         .option('-p, --pm <package-manager>', 'Package manager to use (pnpm, npm, yarn, bun)', 'pnpm')
         .option('--provider <provider>', 'Authentication provider (none, authjs, clerk, auth0, supabase, msal)', 'authjs')
+        .option('--ui <ui>', 'UI library (headless, shadcn, heroui, flowbite, daisy, tremor, none)', 'headless')
         .option('--storybook', 'Include Storybook')
         .option('--template-tag <tag>', 'Template version to use (defaults to latest)')
         .option('-y, --yes', 'Skip prompts and use defaults')
@@ -38,6 +39,7 @@ async function getAnswers(projectName, options = {}) {
             name: projectName || 'my-app',
             pm: options.pm || 'pnpm',
             provider: options.provider || 'authjs',
+            ui: options.ui || 'headless',
             storybook: options.storybook || false,
             templateTag: options.templateTag,
         };
@@ -80,6 +82,20 @@ async function getAnswers(projectName, options = {}) {
         ],
         initial: 1,
     }, {
+        type: 'select',
+        name: 'ui',
+        message: 'Which UI library would you like to use?',
+        choices: [
+            { title: 'Headless (default, safest)', value: 'headless' },
+            { title: 'shadcn/ui', value: 'shadcn' },
+            { title: 'HeroUI', value: 'heroui' },
+            { title: 'Flowbite React', value: 'flowbite' },
+            { title: 'DaisyUI', value: 'daisy' },
+            { title: 'Tremor (analytics)', value: 'tremor' },
+            { title: 'None', value: 'none' },
+        ],
+        initial: 0,
+    }, {
         type: 'confirm',
         name: 'storybook',
         message: 'Would you like to include Storybook?',
@@ -90,6 +106,7 @@ async function getAnswers(projectName, options = {}) {
         name: projectName || answers.name,
         pm: options.pm || answers.pm,
         provider: options.provider || answers.provider,
+        ui: options.ui || answers.ui,
         storybook: options.storybook || answers.storybook,
         templateTag: options.templateTag,
     };

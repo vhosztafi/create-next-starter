@@ -2,6 +2,7 @@ interface ProjectOptions {
     name: string;
     pm: string;
     provider: string;
+    ui: string;
     storybook: boolean;
     templateTag?: string;
 }

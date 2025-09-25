@@ -6,7 +6,7 @@ import ora from 'ora';
 import { checkIfDirectoryExists, getTemplatePath, deepMerge } from './utils.js';
 import { ensureTemplatesAvailable } from './github-fetcher.js';
 export async function createProject(options) {
-    const { name, pm, provider, storybook, templateTag } = options;
+    const { name, pm, provider, ui, storybook, templateTag } = options;
     const projectPath = path.resolve(process.cwd(), name);
     console.log(chalk.blue(`\n🚀 Creating Next.js starter: ${chalk.bold(name)}\n`));
     // Check if directory exists
@@ -26,6 +26,9 @@ export async function createProject(options) {
     }
     if (provider !== 'none') {
         await applyOverlay(projectPath, provider, templatesDir);
+    }
+    if (ui !== 'none' && ui !== 'headless') {
+        await applyOverlay(projectPath, `ui-${ui}`, templatesDir);
     }
     // Merge package.json files
     await mergePackageJson(projectPath);
@@ -54,7 +57,7 @@ export async function createProject(options) {
         // Don't throw here, git is optional
     }
     // Print success message
-    printSuccessMessage(name, provider, storybook);
+    printSuccessMessage(name, provider, ui, storybook);
 }
 async function copyDirectory(src, dest) {
     const entries = await fs.readdir(src, { withFileTypes: true });
@@ -209,7 +212,7 @@ async function createEnvFiles(projectPath, provider) {
         await fs.writeFile(envLocalPath, envContent);
     }
 }
-function printSuccessMessage(projectName, provider, storybook) {
+function printSuccessMessage(projectName, provider, ui, storybook) {
     console.log(chalk.green(`\n✅ Successfully created ${chalk.bold(projectName)}!\n`));
     console.log(chalk.blue('Next steps:'));
     console.log(`  ${chalk.cyan('cd')} ${projectName}`);
@@ -222,6 +225,10 @@ function printSuccessMessage(projectName, provider, storybook) {
     if (provider !== 'none') {
         console.log(`  • Configure your ${provider} provider`);
         console.log(`  • See README.addon.md for ${provider} setup instructions`);
+    }
+    if (ui !== 'none' && ui !== 'headless') {
+        console.log(`  • Configure your ${ui} UI library`);
+        console.log(`  • See README.addon.md for ${ui} setup instructions`);
     }
     console.log('\nHappy coding! 🎉\n');
 }

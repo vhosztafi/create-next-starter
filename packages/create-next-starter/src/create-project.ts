@@ -10,12 +10,13 @@ interface ProjectOptions {
   name: string;
   pm: string;
   provider: string;
+  ui: string;
   storybook: boolean;
   templateTag?: string;
 }
 
 export async function createProject(options: ProjectOptions) {
-  const { name, pm, provider, storybook, templateTag } = options;
+  const { name, pm, provider, ui, storybook, templateTag } = options;
   const projectPath = path.resolve(process.cwd(), name);
 
   console.log(
@@ -46,6 +47,10 @@ export async function createProject(options: ProjectOptions) {
 
   if (provider !== 'none') {
     await applyOverlay(projectPath, provider, templatesDir);
+  }
+
+  if (ui !== 'none' && ui !== 'headless') {
+    await applyOverlay(projectPath, `ui-${ui}`, templatesDir);
   }
 
   // Merge package.json files
@@ -81,7 +86,7 @@ export async function createProject(options: ProjectOptions) {
   }
 
   // Print success message
-  printSuccessMessage(name, provider, storybook);
+  printSuccessMessage(name, provider, ui, storybook);
 }
 
 async function copyDirectory(src: string, dest: string) {
@@ -288,6 +293,7 @@ async function createEnvFiles(projectPath: string, provider: string) {
 function printSuccessMessage(
   projectName: string,
   provider: string,
+  ui: string,
   storybook: boolean
 ) {
   console.log(
@@ -308,6 +314,11 @@ function printSuccessMessage(
   if (provider !== 'none') {
     console.log(`  • Configure your ${provider} provider`);
     console.log(`  • See README.addon.md for ${provider} setup instructions`);
+  }
+
+  if (ui !== 'none' && ui !== 'headless') {
+    console.log(`  • Configure your ${ui} UI library`);
+    console.log(`  • See README.addon.md for ${ui} setup instructions`);
   }
 
   console.log('\nHappy coding! 🎉\n');

@@ -1,7 +1,7 @@
 {
   "name": "@solutioniser/create-next-starter",
   "version": "0.1.7",
-  "description": "CLI tool to create Next.js starter applications with optional authentication providers",
+  "description": "CLI tool to create Next.js starter applications with optional authentication providers and UI libraries",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
@@ -19,7 +19,13 @@
     "supabase",
     "storybook",
     "typescript",
-    "tailwind"
+    "tailwind",
+    "ui",
+    "shadcn",
+    "heroui",
+    "flowbite",
+    "daisyui",
+    "tremor"
   ],
   "author": "Solutioniser Ltd <vilmos@solutioniser.ltd>",
   "license": "MIT",

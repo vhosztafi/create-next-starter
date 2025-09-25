@@ -11,6 +11,7 @@ interface Options {
   name?: string;
   pm?: string;
   provider?: string;
+  ui?: string;
   storybook?: boolean;
   yes?: boolean;
   templateTag?: string;
@@ -33,6 +34,11 @@ async function main() {
       '--provider <provider>',
       'Authentication provider (none, authjs, clerk, auth0, supabase, msal)',
       'authjs'
+    )
+    .option(
+      '--ui <ui>',
+      'UI library (headless, shadcn, heroui, flowbite, daisy, tremor, none)',
+      'headless'
     )
     .option('--storybook', 'Include Storybook')
     .option(
@@ -63,6 +69,7 @@ async function getAnswers(projectName?: string, options: Options = {}) {
       name: projectName || 'my-app',
       pm: options.pm || 'pnpm',
       provider: options.provider || 'authjs',
+      ui: options.ui || 'headless',
       storybook: options.storybook || false,
       templateTag: options.templateTag,
     };
@@ -111,6 +118,21 @@ async function getAnswers(projectName?: string, options: Options = {}) {
       initial: 1,
     },
     {
+      type: 'select' as const,
+      name: 'ui',
+      message: 'Which UI library would you like to use?',
+      choices: [
+        { title: 'Headless (default, safest)', value: 'headless' },
+        { title: 'shadcn/ui', value: 'shadcn' },
+        { title: 'HeroUI', value: 'heroui' },
+        { title: 'Flowbite React', value: 'flowbite' },
+        { title: 'DaisyUI', value: 'daisy' },
+        { title: 'Tremor (analytics)', value: 'tremor' },
+        { title: 'None', value: 'none' },
+      ],
+      initial: 0,
+    },
+    {
       type: 'confirm' as const,
       name: 'storybook',
       message: 'Would you like to include Storybook?',
@@ -124,6 +146,7 @@ async function getAnswers(projectName?: string, options: Options = {}) {
     name: projectName || answers.name,
     pm: options.pm || answers.pm,
     provider: options.provider || answers.provider,
+    ui: options.ui || answers.ui,
     storybook: options.storybook || answers.storybook,
     templateTag: options.templateTag,
   };

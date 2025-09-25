@@ -6,6 +6,15 @@ import fetch from 'node-fetch';
 import * as tar from 'tar';
 import ora from 'ora';
 
+/**
+ * Normalizes a version tag by removing the 'v' prefix if it exists
+ * @param tag - The version tag (e.g., 'v1.0.0' or '1.0.0')
+ * @returns The normalized version without 'v' prefix
+ */
+function normalizeVersion(tag: string): string {
+  return tag.startsWith('v') ? tag.slice(1) : tag;
+}
+
 const TEMPLATES_REPO = 'vhosztafi/next-starter-templates';
 const TEMPLATES_BASE_URL = `https://api.github.com/repos/${TEMPLATES_REPO}`;
 
@@ -37,7 +46,9 @@ export async function downloadTemplate(
   tag: string,
   targetDir: string
 ): Promise<void> {
-  const spinner = ora(`Downloading templates v${tag}...`).start();
+  const spinner = ora(
+    `Downloading templates v${normalizeVersion(tag)}...`
+  ).start();
 
   try {
     // Create target directory
@@ -72,9 +83,11 @@ export async function downloadTemplate(
     // Clean up the tarball
     await fs.unlink(tempTarballPath);
 
-    spinner.succeed(`Templates v${tag} downloaded successfully`);
+    spinner.succeed(
+      `Templates v${normalizeVersion(tag)} downloaded successfully`
+    );
   } catch (error) {
-    spinner.fail(`Failed to download templates v${tag}`);
+    spinner.fail(`Failed to download templates v${normalizeVersion(tag)}`);
     throw error;
   }
 }
