@@ -72,23 +72,20 @@ jobs:
           git push origin "v${{ env.NEW_VERSION }}"
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
+        run: |
+          gh release create "v${{ env.NEW_VERSION }}" \
+            --title "Release v${{ env.NEW_VERSION }}" \
+            --notes "## Changes in v${{ env.NEW_VERSION }}
+
+          This release includes:
+          - Bug fixes and improvements
+          - Updated dependencies
+
+          ## Installation
+
+          \`\`\`bash
+          npm create @solutioniser/next-starter@latest
+          \`\`\`" \
+            ${{ contains(env.NEW_VERSION, 'alpha') || contains(env.NEW_VERSION, 'beta') || contains(env.NEW_VERSION, 'rc') && '--prerelease' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          tag_name: 'v${{ env.NEW_VERSION }}'
-          release_name: 'Release v${{ env.NEW_VERSION }}'
-          body: |
-            ## Changes in v${{ env.NEW_VERSION }}
-
-            This release includes:
-            - Bug fixes and improvements
-            - Updated dependencies
-
-            ## Installation
-
-            ```bash
-            npm create @solutioniser/next-starter@latest
-            ```
-          draft: false
-          prerelease: ${{ contains(env.NEW_VERSION, 'alpha') || contains(env.NEW_VERSION, 'beta') || contains(env.NEW_VERSION, 'rc') }}
