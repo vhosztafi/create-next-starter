@@ -145,9 +145,9 @@ async function getAnswers(projectName?: string, options: Options = {}) {
   return {
     name: projectName || answers.name,
     pm: options.pm || answers.pm,
-    provider: options.provider || answers.provider,
-    ui: options.ui || answers.ui,
-    storybook: options.storybook || answers.storybook,
+    provider: answers.provider ?? options.provider ?? 'authjs',
+    ui: answers.ui ?? options.ui ?? 'headless',
+    storybook: answers.storybook ?? options.storybook ?? false,
     templateTag: options.templateTag,
   };
 }
