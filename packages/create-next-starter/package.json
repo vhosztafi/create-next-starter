@@ -1,6 +1,6 @@
 {
   "name": "@solutioniser/create-next-starter",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "CLI tool to create Next.js starter applications with optional authentication providers and UI libraries",
   "type": "module",
   "main": "./dist/index.js",
